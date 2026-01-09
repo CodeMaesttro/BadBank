@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}BadBank - Home{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h2>Welcome to BadBank</h2>
+    <p class="hero-text">
+        Experience the future of "secure" online banking with BadBank - 
+        where your money is as safe as our code is vulnerable!
+    </p>
+    <div class="cta-buttons">
+        <a href="/login" class="btn btn-primary">Login to Your Account</a>
+        <a href="/register" class="btn btn-secondary">Open New Account</a>
+    </div>
+</div>
+
+<div class="features-section">
+    <h3>Our "Secure" Features</h3>
+    <div class="features-grid">
+        <div class="feature-card">
+            <h4>🔒 Advanced Security</h4>
+            <p>State-of-the-art security measures that definitely work as intended.</p>
+        </div>
+        <div class="feature-card">
+            <h4>💰 Easy Transfers</h4>
+            <p>Transfer money with our simple and "foolproof" system.</p>
+        </div>
+        <div class="feature-card">
+            <h4>📱 Mobile Ready</h4>
+            <p>Access your account from anywhere with our responsive design.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

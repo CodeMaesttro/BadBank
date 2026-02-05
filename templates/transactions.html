@@ -1,1 +1,51 @@
 
+{% extends "base.html" %}
+
+{% block title %}BadBank - Transaction History{% endblock %}
+
+{% block content %}
+<div class="transactions-container">
+    <h2>Transaction History</h2>
+    
+    {% if transactions %}
+        <div class="transaction-list">
+            {% for transaction in transactions %}
+                <div class="transaction-item">
+                    <div class="transaction-info">
+                        <div class="transaction-type">
+                            {% if transaction.from_account_id == user_account.id %}
+                                <span class="outgoing">→ Transfer to {{ transaction.to_user_name }}</span>
+                                <div class="account-number">Account: {{ transaction.to_account }}</div>
+                            {% else %}
+                                <span class="incoming">← Transfer from {{ transaction.from_user_name }}</span>
+                                <div class="account-number">Account: {{ transaction.from_account }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="transaction-description">
+                            {{ transaction.description|safe or 'No description provided' }}
+                        </div>
+                        <div class="transaction-date">{{ transaction.created_at }}</div>
+                        <div class="transaction-status">Status: {{ transaction.status|title }}</div>
+                    </div>
+                    <div class="transaction-amount">
+                        {% if transaction.from_account_id == user_account.id %}
+                            <span class="amount-negative">-${{ "%.2f"|format(transaction.amount) }}</span>
+                        {% else %}
+                            <span class="amount-positive">+${{ "%.2f"|format(transaction.amount) }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-transactions">
+            <p>No transactions found.</p>
+            <a href="{{ url_for('transfer') }}" class="btn btn-primary">Make Your First Transfer</a>
+        </div>
+    {% endif %}
+    
+    <div class="back-to-dashboard">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

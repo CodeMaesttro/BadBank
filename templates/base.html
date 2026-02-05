@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BadBank - Secure Banking{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>🏦 BadBank</h1>
+                <span class="tagline">Your "Secure" Banking Partner</span>
+            </div>
+    <div class="nav-links">
+        {% if session.user_id %}
+            <a href="/dashboard">Dashboard</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/transactions">Transactions</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/">Home</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+    </div>
+        </nav>
+    </header>
 
+    <main>
+        <!-- Search functionality for DOM-based XSS testing -->
+        <div id="search-container" style="display: none;">
+            <input type="text" id="search-input" placeholder="Search...">
+            <div id="search-results"></div>
+        </div>
+        
+        <!-- Hash content container for DOM-based XSS -->
+        <div id="hash-content"></div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BadBank - For Educational Purposes Only</p>
+    </footer>
+
+    <!-- Expose user information to JavaScript -->
+    {% if session.user_id %}
+    <script>
+        var userId = {{ session.user_id }};
+        var username = "{{ session.username }}";
+    </script>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
